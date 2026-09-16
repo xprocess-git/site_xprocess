@@ -1,0 +1,21 @@
+# SPA fallback: redireciona qualquer rota que não seja um arquivo/pasta real para index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Não reescreve se o arquivo ou pasta existir de verdade
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Todo o resto cai no index.html (rotas do react-router-dom)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Garante o MIME type correto para os módulos JS gerados pelo Vite
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+</IfModule>
